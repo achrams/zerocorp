@@ -1,5 +1,6 @@
 <script>
 import axios from "axios"
+const API = 'https://ztserver.vercel.app'
 export default {
   data() {
     return {
@@ -31,7 +32,8 @@ export default {
       name: "",
       cid: "",
       phone: "",
-      itemName: ""
+      itemName: "",
+      photoUrl: ""
     };
   },
   methods: {
@@ -48,16 +50,17 @@ export default {
     save() {
       if (this.name.length > 0 && this.cid.length > 0 && this.phone.length > 0 && this.itemName.length > 0) {
         $("#loanModal").modal("hide");
-        axios.post('https://my-json-server.typicode.com/achrams/ztserver/applicants', {
+        axios.post(API + '/applicants/add', {
             id: this.applicants.length + 1,
             name: this.name,
             cid: this.cid,
+            photoUrl:this.photoUrl,
             phone: this.phone,
             itemName: this.itemName,
             type: this.loanType
           })
           .then(res => {
-            if (res.status == 201) {
+            if (res) {
               this.success()
             } else {
               this.$swal('Failed!', 'Something went wrong', 'error')
@@ -76,19 +79,19 @@ export default {
       else e.preventDefault();
     },
     getData() {
-      axios.get('https://my-json-server.typicode.com/achrams/ztserver/applicants')
+      axios.get(API +'/applicants')
         .then(res => {
-          console.log(res)
-          this.applicants = res.data
+          console.log(res.data)
+          this.applicants = res.data.data
         })
         .catch(err => console.log(err))
     }
   },
   created() {
-    axios.get('https://my-json-server.typicode.com/achrams/ztserver/applicants')
+    axios.get(API +'/applicants')
       .then(res => {
-        console.log(res)
-        this.applicants = res.data
+        console.log(res.data)
+        this.applicants = res.data.data
       })
       .catch(err => console.log(err))
   }
@@ -142,6 +145,9 @@ export default {
             </div>
             <div class="form-input my-4">
               <input type="tel" class="input-field w-100" placeholder="Phone Number" @input="numberCheck($event, ph)" v-model="phone" />
+            </div>
+            <div class="form-input my-4">
+              <input type="text" class="input-field w-100" placeholder="CID Photo URL" v-model="photoUrl" />
             </div>
             <div class="form-input my-4">
               <input type="text" class="input-field w-100" :placeholder="loanType == 3 ? 'Vehicle Name' : 'Location'" v-model="itemName" />
