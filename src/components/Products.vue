@@ -1,12 +1,22 @@
 <script>
-import axios from "axios"
-const API = 'https://ztserver.vercel.app'
+import axios from "axios";
+const API = "https://ztserver.vercel.app";
+const header = {
+  headers: {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "*",
+    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    "Access-Control-Allow-Credentials": true
+  },
+};
 export default {
   data() {
     return {
       applicants: {},
       loanType: 0,
-      loanContents: [{
+      loanContents: [
+        {
           title: "The System",
           text: "We provide loans for the clients with simple requirements (it depends on the amount of loan) and a reasonable interest (up to 10% interest) with simple and negotiable Agreement. We also provide the clients with many payment options (up to 12X Installment).",
         },
@@ -33,7 +43,7 @@ export default {
       cid: "",
       phone: "",
       itemName: "",
-      photoUrl: ""
+      photoUrl: "",
     };
   },
   methods: {
@@ -48,29 +58,39 @@ export default {
       );
     },
     save() {
-      if (this.name.length > 0 && this.cid.length > 0 && this.phone.length > 0 && this.itemName.length > 0) {
+      if (
+        this.name.length > 0 &&
+        this.cid.length > 0 &&
+        this.phone.length > 0 &&
+        this.itemName.length > 0
+      ) {
         $("#loanModal").modal("hide");
-        axios.post(API + '/applicants/add', {
-            id: this.applicants.length + 1,
-            name: this.name,
-            cid: this.cid,
-            photoUrl:this.photoUrl,
-            phone: this.phone,
-            itemName: this.itemName,
-            type: this.loanType
-          })
-          .then(res => {
+        axios
+          .post(
+            API + "/applicants/add",
+            {
+              id: this.applicants.length + 1,
+              name: this.name,
+              cid: this.cid,
+              photoUrl: this.photoUrl,
+              phone: this.phone,
+              itemName: this.itemName,
+              type: this.loanType,
+            },
+            header
+          )
+          .then((res) => {
             if (res) {
-              this.success()
+              this.success();
             } else {
-              this.$swal('Failed!', 'Something went wrong', 'error')
+              this.$swal("Failed!", "Something went wrong", "error");
             }
           })
-          .catch(err => console.log(err))
+          .catch((err) => console.log(err));
       } else {
-        this.$swal('Failed!', 'Please fill all the fields!', 'error')
+        this.$swal("Failed!", "Please fill all the fields!", "error");
       }
-      console.log(this.applicants)
+      console.log(this.applicants);
     },
     numberCheck(e, type) {
       e.target.value = e.target.value.replace(/[^0-9]/g, "");
@@ -79,86 +99,148 @@ export default {
       else e.preventDefault();
     },
     getData() {
-      axios.get(API +'/applicants')
-        .then(res => {
-          console.log(res.data)
-          this.applicants = res.data.data
+      axios
+        .get(API + "/applicants", header)
+        .then((res) => {
+          console.log(res.data);
+          this.applicants = res.data.data;
         })
-        .catch(err => console.log(err))
-    }
+        .catch((err) => console.log(err));
+    },
   },
   created() {
-    axios.get(API +'/applicants')
-      .then(res => {
-        console.log(res.data)
-        this.applicants = res.data.data
+    axios
+      .get(API)
+      .then((res) => {
+        console.log(res.data);
+        // this.applicants = res.data.data;
       })
-      .catch(err => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  },
 };
 </script>
 <template>
-<div class="container m-max">
-  <div class="row align-items-center justify-content-center">
-    <div class="col col-sm-1 p-0">
-      <img src="../assets/investments.png" alt="investlogo" class="w-100 product-selection" @click="changeType(1)" />
+  <div class="container m-max">
+    <div class="row align-items-center justify-content-center">
+      <div class="col col-sm-1 p-0">
+        <img
+          src="../assets/investments.png"
+          alt="investlogo"
+          class="w-100 product-selection"
+          @click="changeType(1)"
+        />
+      </div>
+      <div class="col col-sm-1 p-0">
+        <img
+          src="../assets/homeloans.png"
+          alt="homeloanlogo"
+          class="w-100 product-selection"
+          @click="changeType(2)"
+        />
+      </div>
+      <div class="col col-sm-1 p-0">
+        <img
+          src="../assets/vehicleloan.png"
+          alt="homeloanlogo"
+          class="w-100 product-selection"
+          @click="changeType(3)"
+        />
+      </div>
     </div>
-    <div class="col col-sm-1 p-0">
-      <img src="../assets/homeloans.png" alt="homeloanlogo" class="w-100 product-selection" @click="changeType(2)" />
-    </div>
-    <div class="col col-sm-1 p-0">
-      <img src="../assets/vehicleloan.png" alt="homeloanlogo" class="w-100 product-selection" @click="changeType(3)" />
-    </div>
-  </div>
-  <div class="row align-items-center justify-content-center my-4">
-    <div class="col-lg-6 rounded-15 p-4 text-content opacity-5">
-      <h4 class="mb-0 text-decoration-underline">
-        {{ loanContents[loanType].title }}
-      </h4>
-      <br />
-      <p style="text-align: justify">{{ loanContents[loanType].text }}</p>
-      <br />
-      <div class="container">
-        <div class="row align-items-center justify-content-center">
-          <div class="col-lg-6">
-            <button v-if="loanType > 0" type="button" class="btn btn-outline-dark p-1 text-light w-100" data-bs-toggle="modal" data-bs-target="#loanModal">
-              {{ loanButton[loanType] }}
-            </button>
+    <div class="row align-items-center justify-content-center my-4">
+      <div class="col-lg-6 rounded-15 p-4 text-content opacity-5">
+        <h4 class="mb-0 text-decoration-underline">
+          {{ loanContents[loanType].title }}
+        </h4>
+        <br />
+        <p style="text-align: justify">{{ loanContents[loanType].text }}</p>
+        <br />
+        <div class="container">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6">
+              <button
+                v-if="loanType > 0"
+                type="button"
+                class="btn btn-outline-dark p-1 text-light w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#loanModal"
+              >
+                {{ loanButton[loanType] }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal fade" data-bs-theme="dark" id="loanModal" tabindex="-1" aria-labelledby="loanModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body">
-          <h5 class="text-content">
-            {{ loanContents[loanType].title }} Request Form
-          </h5>
-          <div class="col-lg-12">
-            <div class="form-input my-4">
-              <input type="text" class="input-field w-100" placeholder="Full Name" v-model="name" />
+    <div
+      class="modal fade"
+      data-bs-theme="dark"
+      id="loanModal"
+      tabindex="-1"
+      aria-labelledby="loanModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h5 class="text-content">
+              {{ loanContents[loanType].title }} Request Form
+            </h5>
+            <div class="col-lg-12">
+              <div class="form-input my-4">
+                <input
+                  type="text"
+                  class="input-field w-100"
+                  placeholder="Full Name"
+                  v-model="name"
+                />
+              </div>
+              <div class="form-input my-4">
+                <input
+                  type="tel"
+                  class="input-field w-100"
+                  placeholder="State ID"
+                  @input="numberCheck($event, cid)"
+                  v-model="cid"
+                />
+              </div>
+              <div class="form-input my-4">
+                <input
+                  type="tel"
+                  class="input-field w-100"
+                  placeholder="Phone Number"
+                  @input="numberCheck($event, ph)"
+                  v-model="phone"
+                />
+              </div>
+              <div class="form-input my-4">
+                <input
+                  type="text"
+                  class="input-field w-100"
+                  placeholder="CID Photo URL"
+                  v-model="photoUrl"
+                />
+              </div>
+              <div class="form-input my-4">
+                <input
+                  type="text"
+                  class="input-field w-100"
+                  :placeholder="loanType == 3 ? 'Vehicle Name' : 'Location'"
+                  v-model="itemName"
+                />
+              </div>
             </div>
-            <div class="form-input my-4">
-              <input type="tel" class="input-field w-100" placeholder="State ID" @input="numberCheck($event, cid)" v-model="cid" />
-            </div>
-            <div class="form-input my-4">
-              <input type="tel" class="input-field w-100" placeholder="Phone Number" @input="numberCheck($event, ph)" v-model="phone" />
-            </div>
-            <div class="form-input my-4">
-              <input type="text" class="input-field w-100" placeholder="CID Photo URL" v-model="photoUrl" />
-            </div>
-            <div class="form-input my-4">
-              <input type="text" class="input-field w-100" :placeholder="loanType == 3 ? 'Vehicle Name' : 'Location'" v-model="itemName" />
-            </div>
-          </div>
-          <div class="container mt-4">
-            <div class="row justify-content-end align-items-center">
-              <div class="col-lg-2 px-0">
-                <button type="button" class="btn btn-secondary text-content shadowed px-2 py-1 w-100" @click="save">
-                  Submit
-                </button>
+            <div class="container mt-4">
+              <div class="row justify-content-end align-items-center">
+                <div class="col-lg-2 px-0">
+                  <button
+                    type="button"
+                    class="btn btn-secondary text-content shadowed px-2 py-1 w-100"
+                    @click="save"
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -166,7 +248,6 @@ export default {
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <style scoped>

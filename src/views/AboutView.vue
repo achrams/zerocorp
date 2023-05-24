@@ -17,34 +17,48 @@ import Footer from "../components/Footer.vue";
         <h1 class="text-center zero-title my-5">Our Structure</h1>
         <div class="container mt-5">
           <h4 class="text-center zero-title mb-2 text-decoration-underline">Board of Directors</h4>
-          <h5 class="text-center zero-title">Austine William</h5>
           <h5 class="text-center zero-title">Sihoki Peacesun</h5>
-          <h4 class="text-center zero-title mb-2 mt-5 text-decoration-underline">Chief Executive Officer</h4>
-              <h5 class="text-center zero-title">Derek Haleysalam</h5>
           <div class="row justify-content-center mt-5">
             <div class="col-lg-3">
-              <h4 class="text-center zero-title mb-2 text-decoration-underline">Operation Manager</h4>
-              <h5 class="text-center zero-title">Egbol Siahhan</h5>
+              <h4 class="text-center zero-title mb-2 mt-5 text-decoration-underline">Chief Executive Officer</h4>
+              <h5 class="text-center zero-title">Derek Haleysalam</h5>
             </div>
             <div class="col-lg-3">
-              <h4 class="text-center zero-title mb-2 text-decoration-underline">Human Resource Manager</h4>
+              <h4 class="text-center zero-title mb-2 mt-5 text-decoration-underline">Chief Technology Officer</h4>
+              <h5 class="text-center zero-title">Austine William</h5>
+            </div>
+          </div>
+          <div class="row justify-content-center mt-5">
+            <div class="col-lg-3">
+              <h4 class="text-center zero-title mb-2 text-decoration-underline">Head Administration</h4>
+              <h5 class="text-center zero-title">Cecilia Allegra</h5>
+            </div>
+            <div class="col-lg-3">
+              <h4 class="text-center zero-title mb-2 text-decoration-underline">PR Manager</h4>
               <h5 class="text-center zero-title">Gabriel Cortez</h5>
             </div>
             <div class="col-lg-3">
-              <h4 class="text-center zero-title mb-2 text-decoration-underline">Marketing Manager</h4>
-              <h5 class="text-center zero-title">Vin Mithnite</h5>
+              <h4 class="text-center zero-title mb-2 text-decoration-underline">Operational Manager</h4>
+              <h5 class="text-center zero-title">Egbol Siahhan</h5>
             </div>
           </div>
         </div>
         <div class="container mt-5">
           <div class="row justify-content-center mt-5">
             <div class="col-lg-3">
-              <h4 class="text-center zero-title mb-2 text-decoration-underline">Finance Officer</h4>
-              <h5 class="text-center zero-title">Cecilia Allegra</h5>
+              <h4 class="text-center zero-title mb-2 text-decoration-underline">R & D Staff</h4>
+              <h5 class="text-center zero-title">Gae Bak Hyeun</h5>
+              <h5 class="text-center zero-title">Jamie Koolook</h5>
             </div>
             <div class="col-lg-3">
-              <h4 class="text-center zero-title mb-2 text-decoration-underline">Legal Consultant</h4>
+              <h4 class="text-center zero-title mb-2 text-decoration-underline">Finance Staff</h4>
+              <h5 class="text-center zero-title">Brian Paul</h5>
               <h5 class="text-center zero-title">Zhia Panich</h5>
+            </div>
+            <div class="col-lg-3">
+              <h4 class="text-center zero-title mb-2 text-decoration-underline">Retail Staff</h4>
+              <h5 class="text-center zero-title">Vin Mithnite</h5>
+              <h5 class="text-center zero-title">Gian Gazar</h5>
             </div>
           </div>
         </div>
